@@ -6,7 +6,7 @@
 - Model accuracy on `testing`  data is in range 0.85-0.88 
 
 #### Model Performance :
-<img src="./Figure_1.png" align='center' >
+<img src="Img/Figure_1.png" align='center' >
  
 ## Usage 
 
