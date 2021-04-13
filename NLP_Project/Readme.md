@@ -12,7 +12,7 @@
 
 - Open `Git Bash` 
 - Go to the directory where you want to clone the repository by using `cd` command.
-- Type `git clone  git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY` 
+- Type `git clone  git clone https://github.com/kumar-mahendra/ML-Projects/tree/main/NLP_Project` 
 - press  `Enter` to create a local clone.
 - Thats it. 
 
