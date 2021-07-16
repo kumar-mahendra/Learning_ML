@@ -1,26 +1,20 @@
-# -------------------------------------------------------------------------------------------------------
+'''
+Web-scrapping news headlines from website "firstpost.com"
+'''
 
-# Web scrapping the news headlines 
+# import required libraries 
+import re 
+import requests 
+from bs4 import BeautifulSoup
 
-# SOURCE ---- [firstpost.com] -Firstpost is an Indian news and media website.
-
-################################################################################################################
-
-# IMPORT REQUIRED LIBRARIES 
-import re
-import requests
-from bs4 import BeautifulSoup 
 
 def scrap_data(no_of_headlines): 
 
         headings = ['health','india','entertainment','sports','world','tech']
 
         for news_type in headings : 
-            # print("Hello")
             Count,N_PAGES,headlines_count= 0,500,0
             url =  "https://www.firstpost.com/category/"+news_type
-        
-            # f  = open(news_type+".txt","w+")   
 
             with open(news_type+".txt","wb+") as f:
                 f.truncate()            # clear file
@@ -30,7 +24,6 @@ def scrap_data(no_of_headlines):
                     url ="https://www.firstpost.com/"+news_type+"/news-analysis"
 
                 for page_no in range(1,N_PAGES):
-                    # print("Entered Again",page_no)
                     URL =url+"/page/"+str(page_no)      
                     html_content = requests.get(URL).text 
                     parser = 'html5lib'
@@ -41,13 +34,11 @@ def scrap_data(no_of_headlines):
                     else : 
                         content = parse_tree.find_all('h3',attrs={'class':'main-title'})  #Attributes are set after inspecting the webpage   
                    
-                    # endline = '\n'.encode('utf8')
                     for t in content : 
                        
                         headline = t.text.strip()
                         f.write(headline.encode('ascii','ignore'))
                         f.write('\n'.encode('ascii','ignore'))
-                        # print(headline)
                         headlines_count+=1
                         if (headlines_count==no_of_headlines):
                             print(news_type+"Headlines collection finished.-------------")
@@ -60,8 +51,5 @@ def scrap_data(no_of_headlines):
                 f.close()
                 print(news_type+" Headlines collection finished.-------------")
                 print(headlines_count, "headlines collected.\n")
-
 scrap_data(10000)
-
-
-
+    

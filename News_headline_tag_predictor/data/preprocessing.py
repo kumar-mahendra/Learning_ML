@@ -77,7 +77,7 @@ for news_type in headings :
 news_headlines=np.array(news_headlines) 
 random.shuffle(news_headlines)
 
-with open('newsfile.csv','w+') as f:
+with open('news_headlines.csv','w+') as f:
     f.truncate()                                        # clear already existing content
     f.write('news_headline,news_category'+'\n')
     for news in news_headlines :

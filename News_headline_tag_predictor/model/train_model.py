@@ -11,35 +11,10 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Step-2 : load dataset
-dataset = pd.read_csv('newsfile.csv')
+dataset = pd.read_csv(r'data/news_headlines.csv')
 dataset.drop_duplicates(keep="first",inplace=True)            # remove duplicates
-news_dataset = dataset.sample(30000)  #randomly select 5000 rows
+news_dataset = dataset.sample(30000)  #randomly select 30000 rows
 training_data,testing_data =  train_test_split(news_dataset,test_size=0.3)   # 70/30 train-test split
-
-# # plotting categories vs their count
-# categories = training_data['news_category'].unique()
-# cat_counts = dict.fromkeys(categories,0)
-
-# for t in training_data['news_category'] :
-#     cat_counts[t] +=1 
-# # plt.plot(categories,cat_counts.values())                     # Avoid Plotting As long as it is not necessary
-# # plt.show()
-
-# # print(cat_counts.values())
-# plt.bar(categories,cat_counts.values())
-# plt.title('Training Data Distribution')
-# plt.show()
-
-# categories2 = testing_data['news_category'].unique()
-# cat_counts2 = dict.fromkeys(categories,0)
-
-# for t in training_data['news_category'] :
-#     cat_counts2[t] +=1 
-
-# # print(cat_counts2.values())
-# plt.bar(categories2,cat_counts2.values())
-# plt.title('Testing Data Distribution')
-# plt.show()
 
 
 #  Global variables 
@@ -106,12 +81,6 @@ history = model.fit(X_train,Y_train,
                     epochs = epochs)
 
 
-
-# Saving the model in HDF5 file format 
-model.save('model.h5')
-
-print("\n*******************   MODEL SAVED TO DISK SUCCESSFULLY.  ******************************")
-
 # Plotting the output 
 plt.style.use('ggplot')
 
@@ -135,9 +104,7 @@ def plot_history(history):
     plt.plot(x, val_loss, 'r', label='Validation loss')
     plt.title('Training and validation loss')
     plt.legend()
-
     plt.show()
-
 
 loss, accuracy = model.evaluate(X_train,Y_train, verbose=False)
 print("Training Accuracy: {:.4f}".format(accuracy))
@@ -147,3 +114,19 @@ plot_history(history)
 
 
 
+
+# Saving model in json format 
+model_json = model.to_json()
+with open("./model/model.json", "w") as json_file:
+    json_file.write(model_json)
+
+# Saving the model weights in HDF5 file format 
+model.save('./model/model.h5')
+
+print("\n*******************   MODEL SAVED TO DISK SUCCESSFULLY.  ******************************")
+
+
+# Saving tokenizer object for later use 
+import pickle 
+with open('./model/tokenizer.pickle', 'wb') as handle:
+    pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
